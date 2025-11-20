@@ -1,0 +1,263 @@
+2025-10-29 20:40:01,862 - bd602ee2-3f1d-436d-9d0f-6e1b06deab8d - app.app.middleware - INFO - Request started: GET /docs
+2025-10-29 20:40:01,863 - bd602ee2-3f1d-436d-9d0f-6e1b06deab8d - app.app.middleware - INFO - Request finished: GET /docs - Status: 200 - Duration: 0.0009s
+2025-10-29 20:41:40,933 - cea8fd14-5593-4bc8-99ac-075a24d73ee7 - app.app.middleware - INFO - Request started: GET /docs
+2025-10-29 20:41:40,934 - cea8fd14-5593-4bc8-99ac-075a24d73ee7 - app.app.middleware - INFO - Request finished: GET /docs - Status: 200 - Duration: 0.0012s
+2025-10-29 20:42:33,378 - be860872-72ba-440f-8a88-2fcdbf8bbdd7 - app.app.middleware - INFO - Request started: GET /docs
+2025-10-29 20:42:33,379 - be860872-72ba-440f-8a88-2fcdbf8bbdd7 - app.app.middleware - INFO - Request finished: GET /docs - Status: 200 - Duration: 0.0011s
+2025-10-29 21:31:29,077 - f24c0330-6377-4168-b90a-5f383ca92567 - app.app.middleware - INFO - Request started: GET /docs
+2025-10-29 21:31:29,078 - f24c0330-6377-4168-b90a-5f383ca92567 - app.app.middleware - INFO - Request finished: GET /docs - Status: 200 - Duration: 0.0008s
+2025-10-29 21:31:38,516 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-10-29 21:31:38,516 - 3de42ac3-8fc1-4bf2-be56-0f2dc1679ebc - app.app.middleware - INFO - Request started: GET /
+2025-10-29 21:31:38,517 - 3de42ac3-8fc1-4bf2-be56-0f2dc1679ebc - app.app.middleware - INFO - Request finished: GET / - Status: 404 - Duration: 0.0008s
+2025-10-29 21:31:42,596 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-10-29 21:31:42,597 - aa2b9bcd-107c-46d9-823e-4b4509944eb1 - app.app.middleware - INFO - Request started: GET /favicon.ico
+2025-10-29 21:31:42,599 - aa2b9bcd-107c-46d9-823e-4b4509944eb1 - app.app.middleware - INFO - Request finished: GET /favicon.ico - Status: 404 - Duration: 0.0015s
+2025-10-29 21:31:49,632 - f42e3ee2-13f4-434f-9937-c4e58d8609b8 - app.app.middleware - INFO - Request started: GET /docs
+2025-10-29 21:31:49,633 - f42e3ee2-13f4-434f-9937-c4e58d8609b8 - app.app.middleware - INFO - Request finished: GET /docs - Status: 200 - Duration: 0.0011s
+2025-10-29 21:31:53,746 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-10-29 21:31:53,747 - 5593b8c1-b168-46c9-8195-071a2641f065 - app.app.middleware - INFO - Request started: GET /openapi.json
+2025-10-29 21:31:53,762 - 5593b8c1-b168-46c9-8195-071a2641f065 - app.app.middleware - INFO - Request finished: GET /openapi.json - Status: 200 - Duration: 0.0155s
+2025-10-29 21:33:29,099 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-10-29 21:33:29,100 - 1833707e-b7c0-4d34-a444-3f10a5c3fe88 - app.app.middleware - INFO - Request started: POST /chat
+2025-10-29 21:33:29,103 - 1833707e-b7c0-4d34-a444-3f10a5c3fe88 - app.app.routers.chat - INFO - New request received for /chat for user 09544051464.
+2025-10-29 21:33:32,183 - 1833707e-b7c0-4d34-a444-3f10a5c3fe88 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 3.0833s
+2025-11-07 10:33:14,988 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:33:14,990 - 93304b3b-9624-43dd-af62-05f6167822fe - app.app.middleware - INFO - Request started: GET /
+2025-11-07 10:33:15,074 - 93304b3b-9624-43dd-af62-05f6167822fe - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0840s
+2025-11-07 10:33:15,103 - 8e709615-19f6-471f-98b4-9b96453133db - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 10:33:15,104 - 4eed7952-34ab-4559-815d-e71c331acc3d - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 10:33:15,107 - 8e709615-19f6-471f-98b4-9b96453133db - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0040s
+2025-11-07 10:33:15,110 - 4eed7952-34ab-4559-815d-e71c331acc3d - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0056s
+2025-11-07 10:33:19,198 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:33:19,199 - fc712514-0148-4dc1-8a88-6731fcb47d95 - app.app.middleware - INFO - Request started: GET /favicon.ico
+2025-11-07 10:33:19,201 - fc712514-0148-4dc1-8a88-6731fcb47d95 - app.app.middleware - INFO - Request finished: GET /favicon.ico - Status: 404 - Duration: 0.0013s
+2025-11-07 10:33:30,792 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:33:30,792 - 75b91209-741e-486c-9d8b-146789aa2609 - app.app.middleware - INFO - Request started: GET /start_chat
+2025-11-07 10:33:30,793 - 75b91209-741e-486c-9d8b-146789aa2609 - app.app.middleware - INFO - Request finished: GET /start_chat - Status: 405 - Duration: 0.0006s
+2025-11-07 10:33:49,224 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:33:49,226 - cd3c8d5a-df9a-4dc9-a664-201cc1c1bf80 - app.app.middleware - INFO - Request started: GET /start_chat
+2025-11-07 10:33:49,227 - cd3c8d5a-df9a-4dc9-a664-201cc1c1bf80 - app.app.middleware - INFO - Request finished: GET /start_chat - Status: 405 - Duration: 0.0015s
+2025-11-07 10:37:27,622 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:37:27,627 - f39213fa-c324-4e64-b07d-b4facfbd5f86 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 10:37:27,721 - f39213fa-c324-4e64-b07d-b4facfbd5f86 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0947s
+2025-11-07 10:37:27,750 - 0d798431-cea1-4b72-abb7-1a9c857dea31 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 10:37:27,751 - 44119695-4f25-4f53-b352-328d212ea458 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 10:37:27,755 - 44119695-4f25-4f53-b352-328d212ea458 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0045s
+2025-11-07 10:37:27,758 - 0d798431-cea1-4b72-abb7-1a9c857dea31 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 304 - Duration: 0.0075s
+2025-11-07 10:37:34,464 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:37:34,466 - 4b92e48b-d40f-46e6-96f5-53963d12061e - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 10:37:34,469 - 4b92e48b-d40f-46e6-96f5-53963d12061e - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 10:37:38,185 - 4b92e48b-d40f-46e6-96f5-53963d12061e - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.7189s
+2025-11-07 10:38:45,776 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:38:45,779 - 041e426f-f2cb-4940-81e4-b3df05b52a3d - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 10:38:45,782 - 041e426f-f2cb-4940-81e4-b3df05b52a3d - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 10:38:48,334 - 041e426f-f2cb-4940-81e4-b3df05b52a3d - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.5553s
+2025-11-07 10:40:07,006 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:40:07,007 - 13dde793-fade-4161-ba93-ad3f40c6be03 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 10:40:07,011 - 13dde793-fade-4161-ba93-ad3f40c6be03 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 10:40:09,661 - 13dde793-fade-4161-ba93-ad3f40c6be03 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.6542s
+2025-11-07 10:52:30,551 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:52:30,554 - 4555b286-41b7-4d88-a290-4e294f5084de - app.app.middleware - INFO - Request started: GET /
+2025-11-07 10:52:30,562 - 4555b286-41b7-4d88-a290-4e294f5084de - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0079s
+2025-11-07 10:52:30,587 - 947263c0-9eac-4fbe-a9dd-f80589a26c05 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 10:52:30,587 - 4c97e9af-2813-456b-8481-f1ee56cc9d17 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 10:52:30,591 - 947263c0-9eac-4fbe-a9dd-f80589a26c05 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0041s
+2025-11-07 10:52:30,592 - 4c97e9af-2813-456b-8481-f1ee56cc9d17 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0044s
+2025-11-07 10:52:37,289 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:52:37,292 - 648a92f2-5e0f-4975-b895-dbb94f68e5e7 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 10:52:37,301 - 648a92f2-5e0f-4975-b895-dbb94f68e5e7 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 10:52:40,366 - 648a92f2-5e0f-4975-b895-dbb94f68e5e7 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.0740s
+2025-11-07 10:54:02,921 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 10:54:02,925 - 6436e275-4253-4245-b5f2-62cb8cfe013f - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 10:54:02,937 - 6436e275-4253-4245-b5f2-62cb8cfe013f - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 10:54:05,546 - 6436e275-4253-4245-b5f2-62cb8cfe013f - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.6207s
+2025-11-07 13:22:12,851 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:22:12,863 - 42e641f3-dae0-4768-b422-d1ab4a839e29 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 13:22:12,873 - 42e641f3-dae0-4768-b422-d1ab4a839e29 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0100s
+2025-11-07 13:22:12,899 - 4bb82bf1-0520-41c3-b46a-2468e75caf08 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 13:22:12,902 - 4bb82bf1-0520-41c3-b46a-2468e75caf08 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0025s
+2025-11-07 13:22:12,903 - 1df0daeb-ce55-4c1b-a9ce-2c2aba72f0ef - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 13:22:12,910 - 1df0daeb-ce55-4c1b-a9ce-2c2aba72f0ef - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0073s
+2025-11-07 13:22:19,055 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:22:19,056 - 0a8b33ed-9ca8-4eca-8179-2d6b05cb4a1b - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 13:22:19,061 - 0a8b33ed-9ca8-4eca-8179-2d6b05cb4a1b - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 13:22:22,010 - 0a8b33ed-9ca8-4eca-8179-2d6b05cb4a1b - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 2.9543s
+2025-11-07 13:22:56,627 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:22:56,631 - 6c28edb2-6176-4c41-817c-530a1e34e9af - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 13:22:56,641 - 6c28edb2-6176-4c41-817c-530a1e34e9af - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 13:22:59,266 - 6c28edb2-6176-4c41-817c-530a1e34e9af - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.6351s
+2025-11-07 13:31:00,947 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:31:00,949 - 796f71af-932c-4c4f-a59f-a2613b04c8e9 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 13:31:00,953 - 796f71af-932c-4c4f-a59f-a2613b04c8e9 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 13:31:04,038 - 796f71af-932c-4c4f-a59f-a2613b04c8e9 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 3.0896s
+2025-11-07 13:54:29,913 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:54:29,915 - af187502-b4d7-409a-ade9-ec6ffecca778 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 13:54:29,918 - af187502-b4d7-409a-ade9-ec6ffecca778 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0032s
+2025-11-07 13:54:29,940 - 7bac3810-27de-45ef-9f82-bf2332d51236 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 13:54:29,940 - afdfadf0-a1fa-44d8-b96a-d6c26f551d70 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 13:54:29,943 - 7bac3810-27de-45ef-9f82-bf2332d51236 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0036s
+2025-11-07 13:54:29,944 - afdfadf0-a1fa-44d8-b96a-d6c26f551d70 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0036s
+2025-11-07 13:54:35,803 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:54:35,805 - 0a090a1e-74c5-4e0d-9966-fc0198708ac3 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 13:54:35,809 - 0a090a1e-74c5-4e0d-9966-fc0198708ac3 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 13:54:39,558 - 0a090a1e-74c5-4e0d-9966-fc0198708ac3 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.7531s
+2025-11-07 13:55:08,325 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:55:08,326 - 571bbbbf-359f-4abb-8c56-d60bccbe28a1 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 13:55:08,330 - 571bbbbf-359f-4abb-8c56-d60bccbe28a1 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 13:55:11,113 - 571bbbbf-359f-4abb-8c56-d60bccbe28a1 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.7868s
+2025-11-07 13:56:33,245 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:56:33,250 - 53352920-3753-4115-8cbd-caa5ea227e7e - app.app.middleware - INFO - Request started: GET /
+2025-11-07 13:56:33,363 - 53352920-3753-4115-8cbd-caa5ea227e7e - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.1130s
+2025-11-07 13:56:33,385 - b8c21c84-3ff2-4597-93ff-93f89fff2929 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 13:56:33,387 - 78a574c5-c78c-4029-bb1b-1440703d22c3 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 13:56:33,394 - 78a574c5-c78c-4029-bb1b-1440703d22c3 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0069s
+2025-11-07 13:56:33,398 - b8c21c84-3ff2-4597-93ff-93f89fff2929 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0124s
+2025-11-07 13:56:41,930 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:56:41,932 - 71e1b668-bbab-4ad9-a040-c011372fd9a6 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 13:56:41,936 - 71e1b668-bbab-4ad9-a040-c011372fd9a6 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 13:56:45,512 - 71e1b668-bbab-4ad9-a040-c011372fd9a6 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.5797s
+2025-11-07 13:57:49,315 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:57:49,318 - e494c24a-8c4f-4c60-bf94-d06c90f19838 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 13:57:49,337 - e494c24a-8c4f-4c60-bf94-d06c90f19838 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 13:57:52,191 - e494c24a-8c4f-4c60-bf94-d06c90f19838 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.8727s
+2025-11-07 13:59:11,266 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:59:11,269 - f77203c8-f20b-4dfa-bafd-4552268ee4a7 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 13:59:11,352 - f77203c8-f20b-4dfa-bafd-4552268ee4a7 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0834s
+2025-11-07 13:59:11,378 - a4fac75b-acd6-451f-b191-a5f65c1eece8 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 13:59:11,378 - 9653ebc2-48b1-4039-bdde-3e62f6a03592 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 13:59:11,381 - 9653ebc2-48b1-4039-bdde-3e62f6a03592 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0031s
+2025-11-07 13:59:11,384 - a4fac75b-acd6-451f-b191-a5f65c1eece8 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0069s
+2025-11-07 13:59:17,967 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:59:17,970 - e6744153-14d2-485f-935c-67812c0485d0 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 13:59:17,984 - e6744153-14d2-485f-935c-67812c0485d0 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 13:59:21,358 - e6744153-14d2-485f-935c-67812c0485d0 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.3881s
+2025-11-07 13:59:59,926 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 13:59:59,931 - e56a7106-cc31-4ab4-8536-560559a99dd2 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 13:59:59,933 - e56a7106-cc31-4ab4-8536-560559a99dd2 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:00:02,755 - e56a7106-cc31-4ab4-8536-560559a99dd2 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.8248s
+2025-11-07 14:01:13,225 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:01:13,227 - 6ec055f1-16bb-4c1d-aa77-ced77bac697e - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:01:13,272 - 6ec055f1-16bb-4c1d-aa77-ced77bac697e - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0454s
+2025-11-07 14:01:13,299 - 0ffccf38-f2d3-4b7b-9831-43100ba65512 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:01:13,299 - 5c22df9a-2a5c-4162-80e0-43864cacabb0 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:01:13,302 - 0ffccf38-f2d3-4b7b-9831-43100ba65512 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0030s
+2025-11-07 14:01:13,302 - 5c22df9a-2a5c-4162-80e0-43864cacabb0 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0026s
+2025-11-07 14:01:18,895 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:01:18,897 - 672179e2-7871-42ab-9e31-d17bcffbecd5 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:01:18,900 - 672179e2-7871-42ab-9e31-d17bcffbecd5 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:01:22,026 - 672179e2-7871-42ab-9e31-d17bcffbecd5 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.1291s
+2025-11-07 14:02:35,180 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:02:35,181 - 5c09b2af-d1a7-47f3-bf7c-618e23384c52 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:02:35,186 - 5c09b2af-d1a7-47f3-bf7c-618e23384c52 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:02:38,083 - 5c09b2af-d1a7-47f3-bf7c-618e23384c52 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.9011s
+2025-11-07 14:16:41,652 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:16:41,653 - 75d9b9b8-aa79-4457-b361-43b45fa350bb - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:16:41,655 - 75d9b9b8-aa79-4457-b361-43b45fa350bb - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0018s
+2025-11-07 14:16:41,685 - e6ee94ab-6ead-474f-a7e5-fc081573c0ad - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:16:41,686 - 7903e67e-cf51-4692-a1d0-cec9b721ba04 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:16:41,689 - e6ee94ab-6ead-474f-a7e5-fc081573c0ad - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0042s
+2025-11-07 14:16:41,691 - 7903e67e-cf51-4692-a1d0-cec9b721ba04 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0047s
+2025-11-07 14:16:48,845 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:16:48,848 - 38131c8c-e6d8-4c5a-9639-bfec91ef5d31 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:16:48,866 - 38131c8c-e6d8-4c5a-9639-bfec91ef5d31 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:16:52,095 - 38131c8c-e6d8-4c5a-9639-bfec91ef5d31 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.2466s
+2025-11-07 14:17:28,682 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:17:28,685 - eee09f2e-480c-4502-a8fa-03f5fdd133b2 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:17:28,697 - eee09f2e-480c-4502-a8fa-03f5fdd133b2 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:20:07,615 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:20:07,621 - f77c0ad3-a7cc-48f4-93d7-2417113ccb27 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:20:07,716 - f77c0ad3-a7cc-48f4-93d7-2417113ccb27 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0956s
+2025-11-07 14:20:07,760 - afaafc37-acdc-4e44-808e-7adcff04ee2c - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:20:07,761 - 9e99bea7-9084-414b-8c8c-eee508846af9 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:20:07,765 - 9e99bea7-9084-414b-8c8c-eee508846af9 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 304 - Duration: 0.0036s
+2025-11-07 14:20:07,766 - afaafc37-acdc-4e44-808e-7adcff04ee2c - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 304 - Duration: 0.0058s
+2025-11-07 14:20:14,195 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:20:14,196 - a9de4894-90c1-4d89-ac10-1ab5eca748de - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:20:14,199 - a9de4894-90c1-4d89-ac10-1ab5eca748de - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:20:17,636 - a9de4894-90c1-4d89-ac10-1ab5eca748de - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.4404s
+2025-11-07 14:20:38,706 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:20:38,708 - f2a8e1c6-dac3-4175-9a05-3fa2e159e839 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:20:38,712 - f2a8e1c6-dac3-4175-9a05-3fa2e159e839 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:20:41,786 - f2a8e1c6-dac3-4175-9a05-3fa2e159e839 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 3.0777s
+2025-11-07 14:26:47,709 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:26:47,713 - 0f097d1d-4692-4e74-8f4d-87ab4f6196d4 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:26:47,716 - 0f097d1d-4692-4e74-8f4d-87ab4f6196d4 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0034s
+2025-11-07 14:26:47,781 - 2d8fe034-eea4-470a-8638-8bd0c0385910 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:26:47,784 - 351cc164-20b1-4912-a2ba-f9b3a3e9381e - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:26:47,785 - 2d8fe034-eea4-470a-8638-8bd0c0385910 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0044s
+2025-11-07 14:26:47,787 - 351cc164-20b1-4912-a2ba-f9b3a3e9381e - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 304 - Duration: 0.0032s
+2025-11-07 14:26:53,951 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:26:53,955 - a91e9b9d-08fc-4b25-be63-e4b586e83d3d - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:26:53,961 - a91e9b9d-08fc-4b25-be63-e4b586e83d3d - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:26:56,758 - a91e9b9d-08fc-4b25-be63-e4b586e83d3d - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 2.8040s
+2025-11-07 14:27:28,678 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:27:28,680 - 66a21fb5-3313-4d05-acca-37858a607f51 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:27:28,686 - 66a21fb5-3313-4d05-acca-37858a607f51 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:27:31,309 - 66a21fb5-3313-4d05-acca-37858a607f51 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.6288s
+2025-11-07 14:28:47,339 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:28:47,343 - a85c38ed-b8de-4f84-b857-7e3915ea246c - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:28:47,355 - a85c38ed-b8de-4f84-b857-7e3915ea246c - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0115s
+2025-11-07 14:28:47,399 - 225ea8e0-95e8-4ffa-a072-8c4f33fa18ff - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:28:47,400 - df8cd2a2-c44c-45e7-bb86-a0b0b1dd906a - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:28:47,402 - 225ea8e0-95e8-4ffa-a072-8c4f33fa18ff - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0035s
+2025-11-07 14:28:47,404 - df8cd2a2-c44c-45e7-bb86-a0b0b1dd906a - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 304 - Duration: 0.0040s
+2025-11-07 14:28:52,917 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:28:52,920 - a0c897a8-e022-4048-9392-206133ac614e - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:28:52,936 - a0c897a8-e022-4048-9392-206133ac614e - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:28:55,920 - a0c897a8-e022-4048-9392-206133ac614e - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 2.9997s
+2025-11-07 14:29:41,978 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:29:41,982 - 369225d2-1e7c-4e8a-b813-9342d20c48b0 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:29:42,000 - 369225d2-1e7c-4e8a-b813-9342d20c48b0 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:29:45,887 - 369225d2-1e7c-4e8a-b813-9342d20c48b0 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 3.9058s
+2025-11-07 14:36:18,489 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:36:18,492 - c0a7ebec-5901-41df-858c-e6e90be5a5c2 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:36:18,505 - c0a7ebec-5901-41df-858c-e6e90be5a5c2 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0134s
+2025-11-07 14:36:18,556 - 6bf435ba-29e8-4392-874c-e3a375a142d8 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:36:18,557 - 6780d4be-95e5-4ca8-a02a-b23fe916807c - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:36:18,560 - 6bf435ba-29e8-4392-874c-e3a375a142d8 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0036s
+2025-11-07 14:36:18,560 - 6780d4be-95e5-4ca8-a02a-b23fe916807c - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0031s
+2025-11-07 14:36:24,548 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:36:24,551 - da242ef1-01ac-4b5a-a3fc-ae58b01368e2 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:36:24,554 - da242ef1-01ac-4b5a-a3fc-ae58b01368e2 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187614.
+2025-11-07 14:36:27,561 - da242ef1-01ac-4b5a-a3fc-ae58b01368e2 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 3.0102s
+2025-11-07 14:36:44,470 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:36:44,474 - 29924429-7618-4f4e-b527-1679fdd50b37 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:36:44,477 - 29924429-7618-4f4e-b527-1679fdd50b37 - app.app.routers.chat - INFO - New request received for /chat for user 09039187614.
+2025-11-07 14:36:47,108 - 29924429-7618-4f4e-b527-1679fdd50b37 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.6345s
+2025-11-07 14:37:04,431 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:37:04,435 - febe89c8-72d4-4f57-b376-edd0d0881235 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 14:37:04,441 - febe89c8-72d4-4f57-b376-edd0d0881235 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0058s
+2025-11-07 14:37:04,488 - c014c83d-e83e-44fa-87ac-b6b0d33e01b2 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 14:37:04,489 - d54d3e96-bbfc-4d96-96ca-2a65c7141a04 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 14:37:04,492 - c014c83d-e83e-44fa-87ac-b6b0d33e01b2 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 304 - Duration: 0.0033s
+2025-11-07 14:37:04,493 - d54d3e96-bbfc-4d96-96ca-2a65c7141a04 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 304 - Duration: 0.0037s
+2025-11-07 14:37:14,250 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:37:14,254 - c0a81b1e-fad4-4ea5-ab08-acc6c17ff27e - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 14:37:14,258 - c0a81b1e-fad4-4ea5-ab08-acc6c17ff27e - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187611.
+2025-11-07 14:37:14,305 - c0a81b1e-fad4-4ea5-ab08-acc6c17ff27e - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 0.0505s
+2025-11-07 14:37:58,261 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 14:37:58,264 - c764e1c1-6cec-4fff-a5fa-6dfe20dc58f3 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 14:37:58,280 - c764e1c1-6cec-4fff-a5fa-6dfe20dc58f3 - app.app.routers.chat - INFO - New request received for /chat for user 09039187611.
+2025-11-07 14:38:00,365 - c764e1c1-6cec-4fff-a5fa-6dfe20dc58f3 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.1007s
+2025-11-07 21:23:12,713 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 21:23:12,717 - e0cc3b11-bce7-44e5-a709-338a22313f91 - app.app.middleware - INFO - Request started: GET /
+2025-11-07 21:23:12,773 - e0cc3b11-bce7-44e5-a709-338a22313f91 - app.app.middleware - INFO - Request finished: GET / - Status: 200 - Duration: 0.0564s
+2025-11-07 21:23:12,798 - b64d30f9-53bd-4b18-9b14-eeb13060a232 - app.app.middleware - INFO - Request started: GET /static/css/style.css
+2025-11-07 21:23:12,799 - e00bfe17-cb6d-4e19-858d-882cce193b58 - app.app.middleware - INFO - Request started: GET /static/js/chat.js
+2025-11-07 21:23:12,803 - e00bfe17-cb6d-4e19-858d-882cce193b58 - app.app.middleware - INFO - Request finished: GET /static/js/chat.js - Status: 200 - Duration: 0.0034s
+2025-11-07 21:23:12,803 - b64d30f9-53bd-4b18-9b14-eeb13060a232 - app.app.middleware - INFO - Request finished: GET /static/css/style.css - Status: 200 - Duration: 0.0050s
+2025-11-07 21:23:16,938 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 21:23:16,940 - 71339e46-7c04-4f44-81b0-9b3e352ff213 - app.app.middleware - INFO - Request started: GET /favicon.ico
+2025-11-07 21:23:16,944 - 71339e46-7c04-4f44-81b0-9b3e352ff213 - app.app.middleware - INFO - Request finished: GET /favicon.ico - Status: 404 - Duration: 0.0044s
+2025-11-07 21:23:30,066 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 21:23:30,068 - 447fa53e-16d1-41d9-914b-c179a9c5a254 - app.app.middleware - INFO - Request started: POST /start_chat
+2025-11-07 21:23:30,073 - 447fa53e-16d1-41d9-914b-c179a9c5a254 - app.app.routers.chat - INFO - New request received for /start_chat for user 09039187613.
+2025-11-07 21:23:30,310 - 447fa53e-16d1-41d9-914b-c179a9c5a254 - app.app.middleware - INFO - Request finished: POST /start_chat - Status: 200 - Duration: 0.2424s
+2025-11-07 21:25:14,420 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 21:25:14,423 - e5727738-e387-437f-8ff4-1e63cb62c507 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 21:25:14,431 - e5727738-e387-437f-8ff4-1e63cb62c507 - app.app.routers.chat - INFO - New request received for /chat for user 09039187613.
+2025-11-07 21:25:16,697 - e5727738-e387-437f-8ff4-1e63cb62c507 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 2.2745s
+2025-11-07 21:25:53,178 - N/A - app.app.middleware - WARNING - Redis is not available. Rate limiting is disabled.
+2025-11-07 21:25:53,180 - d2ab0318-c50c-4e7e-847c-67daece41a43 - app.app.middleware - INFO - Request started: POST /chat
+2025-11-07 21:25:53,185 - d2ab0318-c50c-4e7e-847c-67daece41a43 - app.app.routers.chat - INFO - New request received for /chat for user 09039187613.
+2025-11-07 21:25:54,889 - d2ab0318-c50c-4e7e-847c-67daece41a43 - app.app.middleware - INFO - Request finished: POST /chat - Status: 200 - Duration: 1.7093s

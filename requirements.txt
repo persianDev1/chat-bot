@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+openai
+aiosqlite
+pydantic
+python-dotenv
+redis
+tenacity
