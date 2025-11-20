@@ -3,9 +3,8 @@
 import json
 import asyncio
 import logging
+import os
 from typing import AsyncIterator
-
-from httpx import stream
 
 # Import project modules with relative paths
 from ..schemas import StartChatRequest, ChatRequest
@@ -32,6 +31,9 @@ openai_logger = logging.getLogger("openai." + __name__)
 # Create a new router
 router = APIRouter()
 
+# دریافت نام مدل از متغیر محیطی یا استفاده از پیش‌فرض
+MODEL_NAME = os.getenv("OPENAI_MODEL_NAME", "gpt-4o-mini")
+
 # --- Helper functions ---
 RECOVERABLE = (APITimeoutError, APIConnectionError, RateLimitError, APIError)
 
@@ -43,8 +45,12 @@ RECOVERABLE = (APITimeoutError, APIConnectionError, RateLimitError, APIError)
     before_sleep=log_before_retry
 )
 async def _stream_completion(messages):
+    """
+    Sends a request to OpenAI API with retry logic.
+    Returns an async iterator (stream).
+    """
     return await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=MODEL_NAME,
         messages=messages,
         temperature=0.5,
         stream=True,
@@ -52,10 +58,10 @@ async def _stream_completion(messages):
     )
 
 def sse_event(data: dict) -> str:
+    """Helper to format data as Server-Sent Event"""
     return f"data: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 # --- Endpoints ---
-# Note that @app.post has been changed to @router.post
 
 @router.post("/start_chat")
 async def start_chat(req: StartChatRequest, bg: BackgroundTasks):
@@ -65,12 +71,13 @@ async def start_chat(req: StartChatRequest, bg: BackgroundTasks):
 
     # --- Logical path for new user ---
     if not await user_exists(cid):
+        # خواندن پرامپت خوش‌آمدگویی
         welcome_txt = load_prompt_from_file(NEW_USER_PROMPT_FILE) or "Hello! Welcome to the smart real estate assistant."
         
         async def gen_new() -> AsyncIterator[str]:
             # Send an initial empty message (Heart-beat) to prevent browser timeout
             yield sse_event({"conversation_id": cid, "message": ""})
-            await asyncio.sleep(0.1) # Small delay to ensure
+            await asyncio.sleep(0.1) 
             
             # Send the main welcome message
             yield sse_event({"conversation_id": cid, "message": welcome_txt})
@@ -82,9 +89,9 @@ async def start_chat(req: StartChatRequest, bg: BackgroundTasks):
             bg.add_task(save_message, cid, "assistant", welcome_txt)
 
         return StreamingResponse(gen_new(), media_type="text/event-stream")
-    else:
-    # --- Logical path for returning user ---
     
+    else:
+        # --- Logical path for returning user ---
         history = await get_last_20_messages(cid)
         system_content = (
             f"{load_prompt_from_file(GENERAL_PROMPT_FILE)}\n\n"
@@ -95,43 +102,44 @@ async def start_chat(req: StartChatRequest, bg: BackgroundTasks):
         async def gen_returning() -> AsyncIterator[str]:
             full_resp = ""
             try:
-                # Loop through OpenAI response stream
                 openai_logger.debug(f"Sending {len(messages)} messages to OpenAI for user {cid}.")
-                stream = _stream_completion(messages)
+                
+                # فراخوانی تابع Async با await
+                stream = await _stream_completion(messages)
+                
+                # حلقه Async روی استریم
                 async for chunk in stream:
-                    # If choices don't exist or are empty, skip this chunk
                     choices = getattr(chunk, "choices", None)
                     if not choices:
                         continue
-                    choice = choices[0]
                     
+                    choice = choices[0]
                     finish_reason = getattr(choice, "finish_reason", None)
                     if finish_reason is not None:
                         openai_logger.warning(f"finish_reason received: {finish_reason}")
                         break
                     
-                    # If delta doesn't exist or is empty, skip this chunk
                     delta = getattr(choices[0], "delta", None)
                     if not delta:
                         continue
-                    # If content doesn't exist or is empty, skip this chunk
+                        
                     content = getattr(delta, "content", "")
                     if content:
                         full_resp += content
+                        # ارسال فقط بخش جدید (Delta) به کلاینت
                         yield sse_event({"conversation_id": cid, "message": content})
                    
-
                 yield "data: [DONE]\n\n"
-                # After successful stream completion, save the full response in background
+                
+                # ذخیره کامل پیام در پس‌زمینه
                 bg.add_task(save_message, cid, "assistant", full_resp)
 
-            except RECOVERABLE as e:
-                # If after several attempts error still exists, show appropriate message to user
+            except RECOVERABLE:
                 openai_logger.error("Recoverable error during stream in /start_chat", exc_info=True)
                 msg = "We are currently unable to respond; please try again later."
                 yield sse_event({"conversation_id": cid, "message": msg})
                 yield "data: [DONE]\n\n"
-            except Exception as e:
+            except Exception:
                 openai_logger.error("Unexpected error in /start_chat stream", exc_info=True)
                 msg = "An error occurred while processing the stream."
                 yield sse_event({"conversation_id": cid, "message": msg})
@@ -161,38 +169,44 @@ async def handle_chat(req: ChatRequest, bg: BackgroundTasks):
             # User message is immediately queued for background saving
             bg.add_task(save_message, cid, "user", user_msg)
             
-            # Loop through OpenAI response stream
             openai_logger.debug(f"Sending {len(messages)} messages to OpenAI for user {cid}.")
-            stream = _stream_completion(messages)
+            
+            # فراخوانی تابع Async با await
+            stream = await _stream_completion(messages)
+            
+            # حلقه Async روی استریم
             async for chunk in stream:
-                 # If choices don't exist or are empty, skip this chunk
                 choices = getattr(chunk, "choices", None)
                 if not choices:
                      continue
+                
                 choice = choices[0]
                 finish_reason = getattr(choice, "finish_reason", None)
                 if finish_reason is not None:
                     openai_logger.warning(f"finish_reason received: {finish_reason}")
                     break
+                    
                 delta = getattr(choices[0], "delta", None)
                 if not delta:
                     continue
+                    
                 content = getattr(delta, "content", "")
                 if content:
                     full_resp += content
+                    # ارسال فقط بخش جدید (Delta) به کلاینت
                     yield sse_event({"conversation_id": cid, "message": content})
             
             yield "data: [DONE]\n\n"
-            # After stream completion, save assistant's full response in background
+            
+            # ذخیره کامل پاسخ ربات در پس‌زمینه
             bg.add_task(save_message, cid, "assistant", full_resp)
 
-        except RECOVERABLE as e:
-            # Handle recoverable errors
+        except RECOVERABLE:
             openai_logger.error("Recoverable error during stream in /chat", exc_info=True)
             msg = "We are currently unable to respond; please try again later."
             yield sse_event({"conversation_id": cid, "message": msg})
             yield "data: [DONE]\n\n"
-        except Exception as e:
+        except Exception:
             openai_logger.error("Unexpected error in /chat stream", exc_info=True)
             msg = "An error occurred while processing the stream."
             yield sse_event({"conversation_id": cid, "message": msg})

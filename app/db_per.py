@@ -3,6 +3,7 @@ import sqlite3
 import aiosqlite
 from typing import List, Dict
 import logging
+from functools import lru_cache
 
 # Timeout (in seconds) برای جلوگیری از انتظار طولانی در صورت قفل‌شدن دیتابیس
 DB_TIMEOUT_SECONDS = 30
@@ -195,6 +196,8 @@ async def user_exists(conversation_id: str) -> bool:
     
     
     
+# maxsize=None یعنی هیچ محدودیتی برای تعداد فایل‌های کش شده وجود ندارد (چون کلاً ۳-۴ فایل داریم)
+@lru_cache(maxsize=None) 
 def load_prompt_from_file(file_path: str) -> str:
     try:
         logger.debug(f"در حال بارگذاری پرامپت از مسیر {file_path}")
@@ -203,3 +206,4 @@ def load_prompt_from_file(file_path: str) -> str:
             return f.read()
     except FileNotFoundError:
         logger.error(f"فایل پرامپت در مسیر {file_path} یافت نشد.", exc_info=True)
+        return "" # برگرداندن رشته خالی برای امنیت بیشتر

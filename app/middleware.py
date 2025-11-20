@@ -1,7 +1,8 @@
 # app/middleware.py
 
 import time
-import redis
+import redis  # Keep for backward compatibility
+import redis.asyncio as redis_async  # Add async Redis support
 import logging
 import uuid
 from fastapi.responses import JSONResponse
@@ -99,7 +100,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         self, 
         app, 
         requests_per_hour: int, 
-        redis_client: redis.Redis
+        redis_client: redis_async.Redis | None = None  # Allow None for local development
     ):
         """
         سازنده Middleware.
@@ -107,7 +108,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         Args:
             app: اپلیکیشن FastAPI.
             requests_per_hour (int): حداکثر تعداد درخواست مجاز در ساعت برای هر IP.
-            redis_client (redis.Redis): یک کلاینت متصل به سرور Redis.
+            redis_client (redis.asyncio.Redis | None): یک کلاینت متصل به سرور Redis یا None برای غیرفعال کردن.
         """
         super().__init__(app)
         self.requests_per_hour = requests_per_hour
@@ -117,6 +118,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         """
         متد اصلی که برای هر درخواست اجرا می‌شود.
         """
+        # اگر کلاینت ردیس ست نشده بود (حالت لوکال شما)، بدون محدودیت رد شو
+        if self.redis is None:
+            return await call_next(request)
+            
         # اگر مسیر درخواست مربوط به فایل‌های استاتیک یا داکیومنت‌ها بود، آن را نادیده بگیر
         if request.url.path.startswith("/static") or request.url.path.startswith("/docs"):
             return await call_next(request)
@@ -130,33 +135,32 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
         try:
             # استفاده از Pipeline برای اجرای بهینه و یکجای دستورات Redis
-            pipe = self.redis.pipeline()
-            
-            # ۱. حذف تمام رکوردهای قدیمی‌تر از یک ساعت قبل
-            pipe.zremrangebyscore(redis_key, 0, one_hour_ago)
-            
-            # ۲. شمارش تعداد رکوردهای باقی‌مانده (درخواست‌های اخیر)
-            pipe.zcard(redis_key)
-            
-            # ۳. ثبت زمان درخواست فعلی
-            pipe.zadd(redis_key, {str(current_time): current_time})
-            
-            # ۴. تنظیم زمان انقضا برای کلید جهت صرفه‌جویی در حافظه
-            pipe.expire(redis_key, 3600)
-            
-            # اجرای تمام دستورات
-            results = pipe.execute()
-            
-            # نتیجه دستور دوم (zcard)، تعداد درخواست‌های اخیر است
-            request_count = results[1]
-            
-            # ۵. اعمال قانون: اگر تعداد درخواست‌ها از حد مجاز بیشتر بود، خطا برگردان
-            if request_count > self.requests_per_hour:
-                raise HTTPException(
-                    status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                    detail=f"تعداد درخواست‌ها از حد مجاز ({self.requests_per_hour} در ساعت) فراتر رفته است."
-                )
-        except redis.RedisError:
+            async with self.redis.pipeline(transaction=True) as pipe:
+                # ۱. حذف تمام رکوردهای قدیمی‌تر از یک ساعت قبل
+                await pipe.zremrangebyscore(redis_key, 0, one_hour_ago)
+                
+                # ۲. شمارش تعداد رکوردهای باقی‌مانده (درخواست‌های اخیر)
+                await pipe.zcard(redis_key)
+                
+                # ۳. ثبت زمان درخواست فعلی
+                await pipe.zadd(redis_key, {str(current_time): current_time})
+                
+                # ۴. تنظیم زمان انقضا برای کلید جهت صرفه‌جویی در حافظه
+                await pipe.expire(redis_key, 3600)
+                
+                # اجرای تمام دستورات
+                results = await pipe.execute()
+                
+                # نتیجه دستور دوم (zcard)، تعداد درخواست‌های اخیر است
+                request_count = results[1]
+                
+                # ۵. اعمال قانون: اگر تعداد درخواست‌ها از حد مجاز بیشتر بود، خطا برگردان
+                if request_count > self.requests_per_hour:
+                    raise HTTPException(
+                        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                        detail=f"تعداد درخواست‌ها از حد مجاز ({self.requests_per_hour} در ساعت) فراتر رفته است."
+                    )
+        except redis_async.RedisError:
             # اگر Redis در دسترس نبود، اجازه دهید درخواست ادامه پیدا کند (بدون محدودیت نرخ)
             logger.warning("Redis is not available. Rate limiting is disabled.")
         except Exception as e:

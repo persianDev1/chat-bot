@@ -1,114 +1,106 @@
-# persian_bot.py ────────────────────────────────────────────────────────────
+# app/main.py ────────────────────────────────────────────────────────────
 
-# --------------------------------------------------------------------------- #
-# بخش ۱: وارد کردن کتابخانه‌های مورد نیاز
-# --------------------------------------------------------------------------- #
 import os
-import json
+import logging
 import asyncio
-import openai
+from contextlib import asynccontextmanager
 
-# کتابخانه‌های اصلی FastAPI برای ساخت وب‌سرویس
-from fastapi import FastAPI, HTTPException, status, BackgroundTasks
-from fastapi.responses import StreamingResponse, FileResponse
+# کتابخانه‌های اصلی FastAPI
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
-
-from .middleware import (
-    GlobalErrorHandlerMiddleware, 
-    RateLimitMiddleware
-)
-
-# Pydantic برای اعتبارسنجی و تعریف مدل‌های ورودی
-from pydantic import BaseModel, Field
-
-# کتابخانه dotenv برای خواندن متغیرها از فایل .env
 from dotenv import load_dotenv
 
+# کتابخانه Redis (نسخه Async)
+import redis.asyncio as redis_async
 
-# توابع کمکی برای ارتباط با دیتابیس
-from .db_per import user_exists, save_message, get_last_20_messages, load_prompt_from_file
+# ماژول‌های داخلی پروژه
+from .middleware import (
+    GlobalErrorHandlerMiddleware, 
+    AccessLogMiddleware, 
+    RateLimitMiddleware
+)
+from .routers.chat import router
+from .logging_config import setup_logging
 
-# تنظیمات لاگینگ
-from .logging_config import setup_logging, log_before_retry
-import logging
-
+# --------------------------------------------------------------------------- #
+# بخش ۱: تنظیمات اولیه و لاگینگ
+# --------------------------------------------------------------------------- #
+load_dotenv()
 setup_logging()
 app_logger = logging.getLogger("app." + __name__)
-openai_logger = logging.getLogger("openai." + __name__)
 
-# کتابخانه Tenacity برای ایجاد مکانیزم تلاش مجدد (Retry)
-from typing import Iterator,AsyncIterator
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+# --------------------------------------------------------------------------- #
+# بخش ۲: اتصال به Redis (با مدیریت خطا)
+# --------------------------------------------------------------------------- #
+redis_url = os.getenv("REDIS_URL")
+redis_client = None
 
-# کلاس‌های خطای مشخص از کتابخانه OpenAI برای مدیریت خطاها
-from openai import APITimeoutError, APIConnectionError, RateLimitError, APIError
+try:
+    if redis_url:
+        # حالت ۱: اتصال از طریق URL (معمولاً در سرور واقعی/Docker)
+        redis_client = redis_async.from_url(redis_url, encoding="utf-8", decode_responses=True)
+        app_logger.info(f"✅ Redis connected via URL: {redis_url}")
+    else:
+        # حالت ۲: تلاش برای اتصال به لوکال هاست پیش‌فرض
+        # اگر نمی‌خواهید روی سیستم خودتان به ردیس وصل شوید، این قسمت try را کلاً حذف کنید و redis_client = None بگذارید
+        redis_client = redis_async.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+        # یک تست اتصال سریع (Ping)
+        # نکته: چون اینجا هنوز در Loop نیستیم، پینگ نمی‌گیریم، فقط کلاینت را می‌سازیم.
+        # اتصال واقعی زمانی رخ می‌دهد که اولین درخواست بیاید.
+        app_logger.info("⚠️ No REDIS_URL found. Trying localhost default.")
 
-# کتابخانه Redis برای ذخیره سازی داده‌ها
-import redis
-from .middleware import RateLimitMiddleware
-
-# Import the chat router
-from .routers.chat import router
-
-# Import OpenAI client and prompt file paths
-from .openai_client import client, NEW_USER_PROMPT_FILE, RETURNING_USER_PROMPT_FILE, GENERAL_PROMPT_FILE
-
-# 1. Initialize Redis client
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+except Exception as e:
+    app_logger.warning(f"⚠️ Redis connection failed. Rate limiting will be disabled. Error: {e}")
+    redis_client = None
 
 
 # --------------------------------------------------------------------------- #
-# بخش ۳: ساخت اپلیکیشن FastAPI و نصب Middleware ها
+# بخش ۳: ساخت اپلیکیشن FastAPI
 # --------------------------------------------------------------------------- #
-from .middleware import GlobalErrorHandlerMiddleware, AccessLogMiddleware, RateLimitMiddleware
-
 app = FastAPI(title="Persian Chatbot")
 
-# Serve static files
+# سرو کردن فایل‌های استاتیک (CSS, JS)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# Add route for the main page
+# مسیر صفحه اصلی
 @app.get("/")
 async def root():
     return FileResponse("app/static/index.html")
 
-# Include the chat router
+# اضافه کردن روتر چت
 app.include_router(router)
 
-# --- نصب Middleware ها به ترتیب صحیح (از بیرون به درون) ---
+# --------------------------------------------------------------------------- #
+# بخش ۴: نصب Middleware ها (ترتیب بسیار مهم است)
+# --------------------------------------------------------------------------- #
 
-# لایه ۱ (بیرونی‌ترین): مدیریت خطا
+# ۱. مدیریت خطا (بیرونی‌ترین لایه - باید همه چیز را پوشش دهد)
 app.add_middleware(GlobalErrorHandlerMiddleware)
 
-# لایه ۲: لاگینگ دسترسی، شناسه درخواست و زمان پردازش
+# ۲. لاگینگ (باید قبل از تغییر هدرها اجرا شود)
 app.add_middleware(AccessLogMiddleware)
 
-# لایه ۳: مدیریت CORS
+# ۳. مدیریت CORS (برای امنیت مرورگر)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "http://localhost", "http://127.0.0.1:5500"],
+    allow_origins=["*"], # در پروداکشن حتماً به دامین خود محدود کنید
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# لایه ۴ (درونی‌ترین): محدود کننده نرخ
+# ۴. محدودیت نرخ (درونی‌ترین لایه - نزدیک‌ترین به لاجیک برنامه)
 app.add_middleware(
     RateLimitMiddleware, 
     redis_client=redis_client,
-    requests_per_hour=35
+    requests_per_hour=25
 )
 
-
-
 # --------------------------------------------------------------------------- #
-# بخش ۷: اجرای سرور
+# بخش ۵: اجرا (فقط برای تست دستی)
 # --------------------------------------------------------------------------- #
-
-# این بخش فقط زمانی اجرا می‌شود که فایل به صورت مستقیم اجرا شود (نه به عنوان ماژول)
 if __name__ == "__main__":
     import uvicorn
-    # اجرای سرور Uvicorn با قابلیت reload خودکار در صورت تغییر کد
-    uvicorn.run("persian_bot:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
