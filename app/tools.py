@@ -3,6 +3,8 @@
 import logging
 import json
 import os
+from .db_per import load_prompt_from_file
+
 from typing import Optional
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -13,9 +15,30 @@ from .services import GeoService, get_http_client
 logger = logging.getLogger("app.tools")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.hamyaranshahr.com")
 
+
+
+
 # --------------------------------------------------------------------------- #
 # بخش ۱: تعریف Schema ابزار
 # --------------------------------------------------------------------------- #
+
+
+"""
+این ابزار برای جستجوی کسب و کارها با استفاده از ID دسته بندی و شهر مورد نظر ارائه می‌دهد.
+این ابزار می‌تواند با استفاده از مختصات کاربر همراه شود و این صورت که شهر از کاربر وارد نشده باشد،
+با استفاده از مختصات کاربر شهر مورد نظر را تشخیص دهد.
+"""
+
+# (✅ خواندن توضیحات از فایل (فقط یک بار 
+_SEARCH_DESC_PATH = os.path.join("knowledgebase", "tools", "search_booths.md")
+SEARCH_BOOTHS_DESCRIPTION = load_prompt_from_file(_SEARCH_DESC_PATH)
+
+# اگر فایل نبود یا خالی بود، یک متن پیش‌فرض بگذار تا برنامه کرش نکند
+if not SEARCH_BOOTHS_DESCRIPTION:
+    SEARCH_BOOTHS_DESCRIPTION = "Search for businesses based on Category ID and Location."
+
+
+
 TOOLS_SCHEMA = [
     {
         "type": "function",

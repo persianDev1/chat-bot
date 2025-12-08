@@ -22,3 +22,6 @@ class ChatRequest(BaseModel):
     # طول جغرافیایی (Longitude) - اختیاری
     # مثال: 51.3890 (تهران)
     longitude: Optional[float] = Field(None, ge=-180, le=180, description="User's longitude")
+    
+    #نام شهر کاربر که فرانت‌‌اند از روی لوکیشن او تشخیص داده
+    client_city_name: Optional[str] = Field(None, description="The user's city name, which the frontend recognized from their location.")
