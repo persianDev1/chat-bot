@@ -12,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
+from .services import CategoryManager
+
 # کتابخانه Redis (نسخه Async)
 import redis.asyncio as redis_async
 
@@ -55,11 +57,35 @@ except Exception as e:
     app_logger.warning(f"⚠️ Redis connection failed. Rate limiting will be disabled. Error: {e}")
     redis_client = None
 
+# --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# بخش : مدیریت چرخه حیات (Lifespan) - 
+# --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # --- STARTUP (روشن شدن) ---
+    app_logger.info("🚀 Application is starting up...")
+    
+    # استارت سرویس دسته‌بندی‌ها (خواندن فایل و آپدیت از API)
+    await CategoryManager.start()
+    
+    yield # اینجا برنامه اجرا می‌شود
+    
+    # --- SHUTDOWN (خاموش شدن) ---
+    app_logger.info("🛑 Application is shutting down...")
+    
+    # توقف سرویس‌ها
+    await CategoryManager.stop()
+    
+    # بستن ردیس
+    if redis_client:
+        await redis_client.aclose()
 # --------------------------------------------------------------------------- #
 # بخش ۳: ساخت اپلیکیشن FastAPI
 # --------------------------------------------------------------------------- #
-app = FastAPI(title="Persian Chatbot")
+app = FastAPI(title="Persian Chatbot", lifespan=lifespan)
 
 # سرو کردن فایل‌های استاتیک (CSS, JS)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

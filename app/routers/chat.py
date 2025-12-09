@@ -153,7 +153,10 @@ async def handle_chat(req: ChatRequest, bg: BackgroundTasks):
     # دریافت مختصات جغرافیایی کاربر (اگر فرانت‌‌اند ارسال کرده باشد)
     user_lat, user_lon = req.latitude, req.longitude
     
-    app_logger.info(f"Chat Request: {cid} | Coords: {user_lat}, {user_lon}")
+    client_city = req.client_city_name  # ✅ مثلاً "اصفهان" یا None
+
+    app_logger.info(f"Chat req: {cid} | City: {client_city} | Coords: {user_lat},{user_lon}")    
+    
     
     # ۱. ساخت سیستم پرامپت داینامیک
     # لیست دسته‌بندی‌های فعال را از سرویس می‌گیریم و به پرامپت تزریق می‌کنیم
@@ -163,25 +166,35 @@ async def handle_chat(req: ChatRequest, bg: BackgroundTasks):
     # -----------------------------------------------------------------------
     # ساخت کانتکست مربوط به موقعیت مکانی (Location Context)
     # -----------------------------------------------------------------------
-    if user_lat and user_lon:
+     # این دستورالعمل‌ها دقیقاً رفتار مدل را کنترل می‌کنند.
+    
+    if client_city:
+        # سناریو ۱: فرانت‌‌اند شهر را فرستاده است
         location_info = (
-            "✅ [LOCATION STATUS]: GPS Location IS provided by the user. "
-            "You do NOT need to ask for the city name. "
-            "If the user asks for services 'here' or 'nearby', simply call the tool with city_name=null."
+            f"📍 [USER CONTEXT]: The user is currently located in '{client_city}'.\n"
+            f"   - DEFAULT ACTION: If the user asks for services (e.g. 'mechanic') without mentioning a city, "
+            f"you MUST call the 'search_booths' tool with city_name='{client_city}'.\n"
+            f"   - OVERRIDE ACTION: If the user explicitly asks for a different city (e.g. 'in Tehran', 'pirbakran'), "
+            f"ignore the current location and use the user's requested city."
         )
     else:
+        # سناریو ۲: شهر نامشخص است
         location_info = (
-            "❌ [LOCATION STATUS]: GPS Location is NOT provided. "
-            "If the user asks for a service but has not mentioned a city name, "
-            "you MUST ask them for their city first before searching."
+            "⚠️ [USER CONTEXT]: User location is UNKNOWN.\n"
+            "   - If the user requests a service or shop, you MUST explicitly ask them for their city name first.\n"
+            "   - Do NOT guess or invent a city name.\n"
+            "   - Do NOT call the 'search_booths' tool until you have the city name."
         )
 
     # -----------------------------------------------------------------------
-    # ترکیب نهایی سیستم پرامپت
+    # 2. ترکیب نهایی سیستم پرامپت
     # -----------------------------------------------------------------------
+    base_prompt = load_prompt_from_file(GENERAL_PROMPT_FILE)
+    categories_list = CategoryManager.get_prompt_text()
+    
     system_content = (
         f"{base_prompt}\n\n"
-        f"{location_info}\n\n"  # ✅ اینجا وضعیت لوکیشن دقیق مشخص شد
+        f"{location_info}\n\n"  # ✅ تزریق متن تولید شده در بالا
         f"--- ACTIVE BUSINESS CATEGORIES (ID: Name) ---\n"
         f"Use ONLY these IDs for the 'search_booths' tool:\n"
         f"{categories_list}\n"
@@ -274,7 +287,7 @@ async def handle_chat(req: ChatRequest, bg: BackgroundTasks):
                         tool_result_content = await handle_search_booths(
                             category_id=fn_args.get("category_id"),
                             city_name=fn_args.get("city_name"),
-                            user_lat=user_lat, # مختصات از ریکوئست اصلی
+                            user_lat=user_lat, # مختصات از ریکوئست اصلی  
                             user_lon=user_lon
                         )
                     else:

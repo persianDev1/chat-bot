@@ -1,6 +1,6 @@
 # app/schemas.py
-
-from pydantic import BaseModel, Field
+from typing import Optional  
+from pydantic import BaseModel, Field, model_validator
 
 # مدل ورودی برای اندپوینت /start_chat که شماره تلفن را اعتبارسنجی می‌کند
 class StartChatRequest(BaseModel):
@@ -25,3 +25,18 @@ class ChatRequest(BaseModel):
     
     #نام شهر کاربر که فرانت‌‌اند از روی لوکیشن او تشخیص داده
     client_city_name: Optional[str] = Field(None, description="The user's city name, which the frontend recognized from their location.")
+    
+    
+    
+    # ✅ اعتبارسنجی ترکیبی (Cross-field Validation)
+    @model_validator(mode='after')
+    def validate_coordinates(self):
+        lat = self.latitude
+        lon = self.longitude
+        
+        # منطق XOR: یا هر دو باید باشند، یا هیچکدام
+        # اگر یکی باشد و دیگری نباشد، خطا تولید می‌کنیم
+        if (lat is None) != (lon is None):
+            raise ValueError("مختصات جغرافیایی ناقص است. هم Latitude و هم Longitude باید با هم ارسال شوند (یا هیچکدام).")
+        
+        return self

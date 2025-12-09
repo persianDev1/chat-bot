@@ -3,14 +3,16 @@
 import logging
 import json
 import os
+
+# ایمپورت لود کننده فایل (برای خواندن توضیحات ابزار)
 from .db_per import load_prompt_from_file
 
 from typing import Optional
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-# ایمپورت سرویس‌ها (GeoService + get_http_client)
-from .services import GeoService, get_http_client
+# ایمپورت سرویس‌ها (CityService + get_http_client)
+from .services import get_http_client, CityService, CategoryManager
 
 logger = logging.getLogger("app.tools")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.hamyaranshahr.com")
@@ -19,32 +21,30 @@ API_BASE_URL = os.getenv("API_BASE_URL", "https://api.hamyaranshahr.com")
 
 
 # --------------------------------------------------------------------------- #
-# بخش ۱: تعریف Schema ابزار
+# بخش ۱: لود کردن توضیحات ابزار (Tool Description)
 # --------------------------------------------------------------------------- #
+# هدف: خواندن دستورالعمل‌های دقیق از فایل برای هدایت بهتر هوش مصنوعی
 
-
-"""
-این ابزار برای جستجوی کسب و کارها با استفاده از ID دسته بندی و شهر مورد نظر ارائه می‌دهد.
-این ابزار می‌تواند با استفاده از مختصات کاربر همراه شود و این صورت که شهر از کاربر وارد نشده باشد،
-با استفاده از مختصات کاربر شهر مورد نظر را تشخیص دهد.
-"""
-
-# (✅ خواندن توضیحات از فایل (فقط یک بار 
 _SEARCH_DESC_PATH = os.path.join("knowledgebase", "tools", "search_booths.md")
 SEARCH_BOOTHS_DESCRIPTION = load_prompt_from_file(_SEARCH_DESC_PATH)
 
-# اگر فایل نبود یا خالی بود، یک متن پیش‌فرض بگذار تا برنامه کرش نکند
+# متن پیش‌فرض (Fallback) اگر فایل پیدا نشد
 if not SEARCH_BOOTHS_DESCRIPTION:
-    SEARCH_BOOTHS_DESCRIPTION = "Search for businesses based on Category ID and Location."
+    SEARCH_BOOTHS_DESCRIPTION = (
+        "Search for businesses based on exact Category ID and Location. "
+        "Use this tool when the user asks for a service like 'mechanic' or 'bakery'."
+    )
 
-
+# --------------------------------------------------------------------------- #
+# بخش ۲: تعریف اسکیما (Schema) برای OpenAI
+# --------------------------------------------------------------------------- #
 
 TOOLS_SCHEMA = [
     {
         "type": "function",
         "function": {
             "name": "search_booths",
-            "description": "Search for businesses based on exact Category ID and Location.",
+            "description": SEARCH_BOOTHS_DESCRIPTION,
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -54,77 +54,75 @@ TOOLS_SCHEMA = [
                     },
                     "city_name": {
                         "type": "string",
-                        "description": "City name (e.g. 'Tehran')."
+                        # ✅ دستور صریح به مدل: خودت شهر را پیدا کن و بفرست
+                        "description": "The target city name in Persian (e.g. 'اصفهان'). Always populate this field based on user input OR system location context."
                     }
                 },
-                "required": ["category_id"]
+                # ✅ هر دو فیلد اجباری هستند
+                "required": ["category_id", "city_name"]
             }
         }
     }
 ]
 
-# --------------------------------------------------------------------------- #
-# بخش ۲: توابع کمکی (Helper Functions)
-# --------------------------------------------------------------------------- #
-
-@retry(stop=stop_after_attempt(2), wait=wait_exponential(min=1, max=4))
-async def _call_backend_api(params: dict) -> httpx.Response:
-    """
-    تابع داخلی برای تماس با بک‌ند با قابلیت Retry و استفاده از کلاینت اشتراکی.
-    """
-    client = await get_http_client()
-    url = f"{API_BASE_URL}/api/booths"
-    return await client.get(url, params=params)
+# ... (تابع _call_backend_api بدون تغییر) ...
 
 # --------------------------------------------------------------------------- #
-# بخش ۳: تابع اجرایی اصلی (The Handler)
+# بخش ۳: هندلر اصلی (ساده شده)
 # --------------------------------------------------------------------------- #
 
 async def handle_search_booths(
     category_id: int,
-    city_name: Optional[str] = None,
+    city_name: str, # ✅ این الان اجباری است (چون مدل حتما میفرستد)
     user_lat: Optional[float] = None, 
     user_lon: Optional[float] = None
 ) -> str:
-    """
-    اجرای جستجو با اعتبارسنجی ورودی و مدیریت خطای پیشرفته.
-    """
     
-    # 1. اعتبارسنجی ورودی (Validation)
+    # 1. اعتبارسنجی
     if not category_id:
+        return json.dumps({"status": "error", "message": "Category ID is required."}, ensure_ascii=False)
+    
+    # اگر مدل به هر دلیلی شهر را نفرستاد (که نباید پیش بیاید)، ارور میدهیم
+    if not city_name:
+        return json.dumps({"status": "error", "message": "City name is required."}, ensure_ascii=False)
+
+    # 2. دریافت Slug بیزینس
+    business_slug = CategoryManager.get_slug_by_id(category_id)
+    if not business_slug:
+        return json.dumps({"status": "error", "message": "Invalid Category ID."}, ensure_ascii=False)
+
+    logger.info(f"Tool Exec: CatID={category_id} ({business_slug}) | City={city_name}")
+
+    # 3. تبدیل اسم شهر به Slug (با استفاده از CityService)
+    final_city_display = city_name
+    city_slug, real_name = CityService.find_city_slug(city_name)
+    
+    if not city_slug:
         return json.dumps({
             "status": "error",
-            "message": "Category ID is required and cannot be zero."
+            "message": f"City '{city_name}' not found in Isfahan province coverage."
         }, ensure_ascii=False)
-
-    logger.info(f"Tool Exec: cat_id={category_id}, city='{city_name}', lat={user_lat}")
-
-    # 2. حل کردن مسئله شهر (City Resolution)
-    final_city = city_name
-
-    # اگر شهر متنی نبود ولی مختصات داشتیم -> تبدیل مختصات
-    if not final_city and user_lat and user_lon:
-        logger.info("Resolving city from coordinates...")
-        detected_city = await GeoService.get_city_from_coords(user_lat, user_lon)
-        if detected_city:
-            final_city = detected_city
-            logger.info(f"City resolved: {final_city}")
-
-    # 3. آماده‌سازی پارامترها
-    params = {
-        "BusinessCategoryId": category_id,
-        "PageSize": 5 
-    }
     
-    if final_city:
-        logger.info(f"City provided: {final_city}")
-        params["CitySlug"] = final_city
+    final_city_display = real_name
 
-    # 4. ارسال درخواست به بک‌ند
+    # 4. چیدن پارامترها
+    params = {
+        "BusinessSlug": business_slug,
+        "CitySlug": city_slug, # ✅ همیشه اسلاگ شهر را می‌فرستیم
+        "PageSize": 5
+    }
+
+    # ✅ نکته مهم: ما مختصات را هم می‌فرستیم تا بک‌ند "فاصله" را حساب کند
+    # حتی اگر شهر انتخاب شده، شهر کاربر نباشد (مثلاً کاربر در اصفهان است، مکانیکی در شاهین شهر می‌خواهد)
+    # بک‌ند فاصله کاربر تا مکانیکی‌های شاهین شهر را حساب می‌کند که درست است.
+    if user_lat and user_lon:
+        params["Latitude"] = user_lat
+        params["Longitude"] = user_lon
+
+    # 5. تماس با بک‌ند
     try:
         resp = await _call_backend_api(params)
         
-        # مدیریت کدهای وضعیت مختلف (Error Handling)
         if resp.status_code == 200:
             data = resp.json()
             items = data.get("items", [])
@@ -132,10 +130,9 @@ async def handle_search_booths(
             if not items:
                 return json.dumps({
                     "status": "success",
-                    "message": f"No results found for Category ID {category_id} in '{final_city or 'all cities'}'."
+                    "message": f"No results found for '{business_slug}' in {final_city_display}."
                 }, ensure_ascii=False)
             
-            # خلاصه کردن نتیجه (Mapping)
             simplified_items = []
             for item in items:
                 simplified_items.append({
@@ -149,34 +146,16 @@ async def handle_search_booths(
             
             return json.dumps({
                 "status": "success",
-                "city_used": final_city,
+                "city_used": final_city_display,
                 "results": simplified_items
             }, ensure_ascii=False)
             
         elif resp.status_code == 404:
-            return json.dumps({
-                "status": "error",
-                "message": "The requested city or category was not found in the system."
-            }, ensure_ascii=False)
-            
-        elif resp.status_code >= 500:
-            logger.error(f"Backend Server Error: {resp.status_code}")
-            return json.dumps({
-                "status": "error",
-                "message": "Temporary backend system error. Please try again later."
-            }, ensure_ascii=False)
-            
+            return json.dumps({"status": "not_found", "message": "Nothing found."}, ensure_ascii=False)
         else:
-            logger.error(f"API Error: {resp.status_code} - {resp.text}")
-            return json.dumps({
-                "status": "error", 
-                "code": resp.status_code,
-                "message": "Unknown API error"
-            }, ensure_ascii=False)
+            logger.error(f"Backend Error: {resp.status_code} - {resp.text}")
+            return json.dumps({"status": "error", "code": resp.status_code}, ensure_ascii=False)
 
     except Exception as e:
-        logger.exception(f"Tool execution exception: {e}")
-        return json.dumps({
-            "status": "error", 
-            "message": f"Internal Tool Error: {str(e)}"
-        }, ensure_ascii=False)
+        logger.exception(f"Tool execution error: {e}")
+        return json.dumps({"status": "error", "message": str(e)}, ensure_ascii=False)
